@@ -1,0 +1,121 @@
+from rest_framework.test import APITestCase, APIRequestFactory
+from vms.views import VendorListCreateView,VendorRetrieveUpdateDeleteView
+from django.urls import reverse
+from rest_framework import status
+from django.contrib.auth import get_user_model
+from vms.models import Vendor, PurchaseOrder
+
+
+User = get_user_model()
+
+class VendorTestCaseBase(APITestCase):
+    def setUp(self):
+        self.authenticate()
+        self.setup_vendor()
+
+    def authenticate(self):
+
+        resp=self.client.post(
+            reverse("signup"),
+            {
+                "email": "user@app.com",
+                "password": "passwordforuser##!123",
+                "username": "ordinaryuser",
+            },
+        )
+
+        self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
+        response = self.client.post(
+            reverse("token_obtain_pair"),
+            {
+                "email": "user@app.com",
+                "password": "passwordforuser##!123",
+            },
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        # print(response.data)
+        token = response.data["access"]
+
+        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")
+
+    def setup_vendor(self):
+        self.vendor_data = {
+            "name": "vendor 3 name",
+            "contact_details": "vendor 3 contact_details",
+            "address": "vendor 3 address",
+            "vendor_code": "vendor 3 vendor_code22211",
+        }
+        self.vendor_create()
+
+    def vendor_create(self):
+        response = self.client.post(reverse("list_vendors"), self.vendor_data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+class VendorListTestCase(VendorTestCaseBase):
+    def test_vendor_retrieve(self):
+        response = self.client.get(reverse("vendor_detail", kwargs={"pk": 1}))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["name"], "vendor 3 name")
+
+    def test_vendor_update(self):
+        url1 = reverse("vendor_detail", kwargs={"pk": 1})
+        response = self.client.put(url1, {
+            "name": "string11",
+            "contact_details": "string22",
+            "address": "string33",
+            "vendor_code": "string44",
+        })
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["name"], "string11")
+
+    def test_list_vendors(self):
+        response = self.client.get(reverse("list_vendors"), kwargs={"page_size": 3})
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["count"], 1)
+
+    def test_vendor_get(self):
+        response = self.client.get(reverse("vendor_detail", kwargs={"pk": 1}))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+
+class PurchaseOrderTestCase(VendorTestCaseBase):
+    def test_create_purchase_order(self):
+        po_data = {
+            "po_number": "PO001",
+            "vendor": 1,
+            "order_date": "2023-12-09T12:00:00Z",
+            "delivery_date": "2023-12-10T12:00:00Z",
+            "items": '{"item": "Test Item"}',
+            "quantity": "10",
+            "status": "completed",
+            "issue_date": "2023-12-09T12:00:00Z",
+        }
+        response = self.client.post(reverse("purchase_order_vendors"), data=po_data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_update_purchase_order(self):
+        po_data = {
+            "po_number": "PO001",
+            "vendor": 1,
+            "order_date": "2023-12-09T12:00:00Z",
+            "delivery_date": "2023-12-10T12:00:00Z",
+            "items": '{"item": "Updated Test Item"}',
+            "quantity": "20",
+            "status": "completed",
+            "issue_date": "2023-12-09T12:00:00Z",
+        }
+        url = reverse("purchase_order_detail", kwargs={"pk": 1})
+        response = self.client.put(url, data=po_data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_acknowledge_purchase_order(self):
+        url = reverse('purchase-order-acknowledge', kwargs={'pk': 1})
+        response = self.client.put(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+class VendorPerformanceTestCase(VendorTestCaseBase):
+    def test_vendor_performance_view(self):
+        url = reverse('vendor-performance', kwargs={'pk': 1})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+

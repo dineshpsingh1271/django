@@ -1,0 +1,610 @@
+openapi: 3.0.2
+info:
+  title: ''
+  version: ''
+paths:
+  /api/home/:
+    get:
+      operationId: listhomepages
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+      tags:
+      - api
+  /api/vendors/:
+    get:
+      operationId: listVendors
+      description: api for listing vendors
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?page=4
+                  previous:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?page=2
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Vendor'
+          description: ''
+      tags:
+      - api
+    post:
+      operationId: createVendor
+      description: api for creating vendors
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vendor'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Vendor'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Vendor'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vendor'
+          description: ''
+      tags:
+      - api
+  /api/vendors/{id}/:
+    get:
+      operationId: retrieveVendor
+      description: api for retreiving vendor data.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this vendor.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vendor'
+          description: ''
+      tags:
+      - api
+    put:
+      operationId: updateVendor
+      description: api for updating vendor data.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this vendor.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vendor'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Vendor'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Vendor'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vendor'
+          description: ''
+      tags:
+      - api
+    delete:
+      operationId: destroyVendor
+      description: api for deleting vendor data.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this vendor.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - api
+  /api/purchaseorder/:
+    get:
+      operationId: listPurchaseOrders
+      description: api for listing Purchase Order
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?page=4
+                  previous:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?page=2
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PurchaseOrder'
+          description: ''
+      tags:
+      - api
+    post:
+      operationId: createPurchaseOrder
+      description: api for creating PurchaseOrder
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PurchaseOrder'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PurchaseOrder'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PurchaseOrder'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseOrder'
+          description: ''
+      tags:
+      - api
+  /api/purchaseorder/{id}/:
+    get:
+      operationId: retrievePurchaseOrder
+      description: api for retreiving Purchase Order data.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this purchase order.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseOrder'
+          description: ''
+      tags:
+      - api
+    put:
+      operationId: updatePurchaseOrder
+      description: api for updating Purchase Order data.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this purchase order.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PurchaseOrder'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PurchaseOrder'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PurchaseOrder'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseOrder'
+          description: ''
+      tags:
+      - api
+    delete:
+      operationId: destroyPurchaseOrder
+      description: api for deleting Purchase Order data.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this purchase order.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - api
+  /api/vendors/{id}/performance/:
+    get:
+      operationId: retrieveHistoricalPerformance
+      description: api for retreiving HistoricalPerformance data.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this historical performance.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistoricalPerformance'
+          description: ''
+      tags:
+      - api
+  /api/accounts/signup/:
+    post:
+      operationId: createSignUp
+      description: api for creating new user
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignUp'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SignUp'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SignUp'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignUp'
+          description: ''
+      tags:
+      - api
+  /api/token/:
+    post:
+      operationId: createTokenObtainPair
+      description: 'Takes a set of user credentials and returns an access and refresh
+        JSON web
+
+        token pair to prove the authentication of those credentials.'
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenObtainPair'
+          description: ''
+      tags:
+      - api
+  /api/token/refresh/:
+    post:
+      operationId: createTokenRefresh
+      description: 'Takes a refresh type JSON web token and returns an access type
+        JSON web
+
+        token if the refresh token is valid.'
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+      tags:
+      - api
+  /api/token/verify/:
+    post:
+      operationId: createTokenVerify
+      description: 'Takes a token and indicates if it is valid.  This view provides
+        no
+
+        information about a token''s fitness for a particular use.'
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenVerify'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenVerify'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenVerify'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenVerify'
+          description: ''
+      tags:
+      - api
+  /api/purchaseorder/{id}/acknowledge/:
+    put:
+      operationId: updatePurchaseOrder
+      description: API view for updating the acknowledgment status of a Purchase Order.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this purchase order.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PurchaseOrder'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PurchaseOrder'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PurchaseOrder'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseOrder'
+          description: ''
+      tags:
+      - api
+components:
+  schemas:
+    Vendor:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        contact_details:
+          type: string
+        address:
+          type: string
+        vendor_code:
+          type: string
+          maxLength: 50
+        on_time_delivery_rate:
+          type: number
+        quality_rating_avg:
+          type: number
+        average_response_time:
+          type: number
+        fulfillment_rate:
+          type: number
+      required:
+      - name
+      - contact_details
+      - address
+      - vendor_code
+    PurchaseOrder:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        vendor:
+          type: object
+          properties:
+            id:
+              type: integer
+              readOnly: true
+            name:
+              type: string
+              maxLength: 255
+            contact_details:
+              type: string
+            address:
+              type: string
+            vendor_code:
+              type: string
+              maxLength: 50
+            on_time_delivery_rate:
+              type: number
+            quality_rating_avg:
+              type: number
+            average_response_time:
+              type: number
+            fulfillment_rate:
+              type: number
+          required:
+          - name
+          - contact_details
+          - address
+          - vendor_code
+          readOnly: true
+        po_number:
+          type: string
+          maxLength: 50
+        order_date:
+          type: string
+          format: date-time
+        delivery_date:
+          type: string
+          format: date-time
+        items:
+          type: object
+        quantity:
+          type: integer
+        status:
+          enum:
+          - pending
+          - completed
+          - canceled
+          type: string
+        quality_rating:
+          type: number
+          nullable: true
+        issue_date:
+          type: string
+          format: date-time
+        acknowledgment_date:
+          type: string
+          format: date-time
+          nullable: true
+      required:
+      - po_number
+      - order_date
+      - delivery_date
+      - items
+      - quantity
+      - issue_date
+    HistoricalPerformance:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        on_time_delivery_rate:
+          type: number
+        quality_rating_avg:
+          type: number
+        average_response_time:
+          type: number
+        fulfillment_rate:
+          type: number
+    SignUp:
+      type: object
+      properties:
+        email:
+          type: string
+          maxLength: 80
+        username:
+          type: string
+          maxLength: 45
+        password:
+          type: string
+          writeOnly: true
+          minLength: 8
+      required:
+      - email
+      - username
+      - password
+    TokenObtainPair:
+      type: object
+      properties:
+        email:
+          type: string
+          writeOnly: true
+        password:
+          type: string
+          writeOnly: true
+      required:
+      - email
+      - password
+    TokenRefresh:
+      type: object
+      properties:
+        refresh:
+          type: string
+        access:
+          type: string
+          readOnly: true
+      required:
+      - refresh
+    TokenVerify:
+      type: object
+      properties:
+        token:
+          type: string
+          writeOnly: true
+      required:
+      - token
